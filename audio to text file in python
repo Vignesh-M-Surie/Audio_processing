@@ -1,0 +1,31 @@
+!pip install SpeechRecognition --upgrade  #Installing speech recognition package of python which is generally used in speech recognition purposes
+!pip install pydub #pydub package is used to convert files of one format to another
+
+import speech_recognition as sr #importing the speech recognition module with sr as its alias
+from pydub import AudioSegment #importing audio segment module from pydub
+
+address=input('Enter audio file name along with file directory') # takes in the adress for audio file
+
+class audiototext:
+  def __init__ (self,text):# creating instance variable
+    self.text=text #self.text will represent the address input
+  def convert(self):
+    # convert mp3 file to wav                                                       
+    sound = AudioSegment.from_file(self.text, format='mp4')  # reading the audio file 
+    sound.export("/content/transcript.wav", format="wav") # saving the audio file as .wav file                                                        
+    self.AUDIO_FILE = "transcript.wav" #fetching the new .wav file to process it further using speech recognition
+  def transcriber(self):                           
+    engine = sr.Recognizer() # Recognizer acts as the main method which records/listen to audio source
+    with sr.WavFile(self.AUDIO_FILE) as source: #opening the .wav file as source
+            audio = engine.listen(source)  # reading the audio  
+            text= engine.recognize_google(audio) 
+            """ The recognizer method comes with inbuilt apis for audio recognition such as google , bing and more"""
+            print(f'\n{text}') #printing the converted text
+
+
+obj=audiototext(address) #calling the object
+if '.wav' not in address: # converting the file to .wav if it isn't
+  obj.convert()   
+  obj.transcriber()
+else:
+  obj.transcriber()
